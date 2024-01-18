@@ -1,18 +1,62 @@
-# 初めてのspring boot
-* @RequestMapping ?
-* @SpringBootApplication
-* @RestController
-* 
-
 # コア機能
 * SpringApplication: `main()`メソッドから開始されるSpringアプリ。
   * 遅延初期化:HTTPリクエストを受信すれまで多くのWeb関連Beanが初期化されなくなります。
   * application.properties => `spring.main.lazy-initialization=true`
 
+# HTMLマッピング
+
+1. pom.xml
+```xml
+       <!-- Thymeleaf -->
+       <dependency>
+   			 <groupId>org.springframework.boot</groupId>
+   			 <artifactId>spring-boot-starter-thymeleaf</artifactId>
+		</dependency>
+```
+
+2. application.properties
+```
+spring.thymeleaf.cache=false
+spring.thymeleaf.mode=HTML
+spring.thymeleaf.encoding=UTF-8
+spring.thymeleaf.prefix=classpath:/templates/
+spring.thymeleaf.suffix=.html
+```
+
+3. ファイル.java
+```Java
+@Controller
+public class a {
+  @GetMapping("/path")
+	public String inputForm(Model model) {
+		model.addAttribute("data",new A());
+		return "file";
+	}
+}
+
+```
+
+4. HTMLファイル配置: resources -> templates -> file.html
+```HTML
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Thymeleaf Template</title>
+</head>
+<body>
+    <form action="#" th:action="@{/submit}" th:object="${data}" method="post">
+        <input type="text" th:field="*{input}" />
+        <input type="submit" value="Submit" />
+    </form>
+</body>
+</html>
+```
+
+
 # ホットリロード
 
-1. 
-pom.xml
+1. pom.xml
 ```
 	  <!-- ホットリロード  -->
 		<dependency>
@@ -23,8 +67,29 @@ pom.xml
        </dependency>
 ```
 
-2. 
-Eclipse -> Menu -> Project -> Build Automatically -> 再起動
+2. Eclipse -> Menu -> Project -> Build Automatically -> 再起動
+
+# Spring Web
+
+## @RestController及び@RequestMapping アノテーション「注解」
+> ステレオタイプ「刻板印象」アノテーション
+
+`@RestController`を使われ、クラスはWeb@Controllerこのこと分かる。
+
+`@RequestMapping` アノテーションは、結果の文字列を呼び出し元に直接返すようにSpringに指示「しじ」します
+
+```Java
+@RestController
+public class A{
+  @RequestMapping("/")
+  String home(){
+    return "hello"
+  }
+}
+```
+
+## @Controller
+> HTTP リクエストを受け取って処理します
 
 # @Service & @Autowired
 > 依存性注入
@@ -50,7 +115,7 @@ public B(A a){
 return a.a
 ```
 
-# ディレクトリ
+# 推奨「すいしょう」ディレクトリ
 
 ```
 src/main/java/
@@ -91,7 +156,7 @@ src/main/resources/
 
 # TODO
 
-1. 　別機能を連携  
+1. ok　別機能を連携  
   ・@Service ok
 ```
 	private final helloworldSerivce helloworldserivce;
@@ -104,6 +169,16 @@ src/main/resources/
 
 ```
 
-2.   RestController
-3.   @RequestMapping
+2. ok   RestController
+3. ok  @RequestMapping
 4.   DB連携
+5. * @SpringBootApplication
+
+
+# 登録
+
+1. app作成 inputあり  ok
+2. パラメータを受ける
+3. DB連携
+4. 詮索
+

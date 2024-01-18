@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Thymeleaf Template</title>
+</head>
+<body>
+    <form action="#" th:action="@{/submit}" th:object="${data}" method="post">
+        <input type="text" th:field="*{input}" />
+        <input type="submit" value="Submit" />
+    </form>
+</body>
+</html>
